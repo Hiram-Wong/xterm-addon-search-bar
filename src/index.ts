@@ -59,7 +59,7 @@ export class SearchBarAddon implements ITerminalAddon {
     element.className = ADDON_MARKER_NAME;
     const parentElement = <HTMLElement>this.terminal.element.parentElement;
     this.searchBarElement = element;
-    if (!['relative', 'absoulte', 'fixed'].includes(parentElement.style.position)) {
+    if (!['relative', 'absolute', 'fixed'].includes(parentElement.style.position)) {
       parentElement.style.position = 'relative';
     }
     parentElement.appendChild(this.searchBarElement);
