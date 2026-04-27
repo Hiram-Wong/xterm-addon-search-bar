@@ -1,5 +1,5 @@
-import { ITerminalAddon, Terminal } from 'xterm';
-import { ISearchOptions, SearchAddon } from 'xterm-addon-search';
+import { ITerminalAddon, Terminal } from '@xterm/xterm';
+import { ISearchOptions, SearchAddon } from '@xterm/addon-search';
 import './index.css';
 
 export interface SearchBarOption extends ISearchOptions {
@@ -68,18 +68,18 @@ export class SearchBarAddon implements ITerminalAddon {
     });
     this.on('.search-bar__btn.next', 'click', () => {
       this.searchAddon.findNext(this.searchKey, {
-        incremental: false
+        incremental: false,
       });
     });
     this.on('.search-bar__btn.prev', 'click', () => {
       this.searchAddon.findPrevious(this.searchKey, {
-        incremental: false
+        incremental: false,
       });
     });
     this.on('.search-bar__input', 'keyup', (e: any) => {
       this.searchKey = (e.target as HTMLInputElement).value;
       this.searchAddon.findNext(this.searchKey, {
-        incremental: e.key !== `Enter`
+        incremental: e.key !== `Enter`,
       });
     });
     (this.searchBarElement.querySelector('input') as HTMLInputElement).select();
@@ -126,7 +126,7 @@ export class SearchBarAddon implements ITerminalAddon {
 
     if (!styleElement) {
       styleElement = document.createElement('style');
-      styleElement.type = 'text/css';
+      // styleElement.type = 'text/css'; // deprecated
       styleElement.id = ADDON_MARKER_NAME;
       document.getElementsByTagName('head')[0].appendChild(styleElement);
     }

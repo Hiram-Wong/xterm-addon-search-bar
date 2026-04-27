@@ -1,4 +1,4 @@
-import { ITheme } from 'xterm';
+import type { ITheme } from '@xterm/xterm';
 
 export const ANSI_COLOR_THEME: ITheme = {
   /** ANSI black (eg. `\x1b[30m`) */

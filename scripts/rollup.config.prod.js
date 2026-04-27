@@ -1,9 +1,15 @@
 import filesize from 'rollup-plugin-filesize';
-import uglify from 'rollup-plugin-uglify';
-import { minify } from 'uglify-es';
+import terser from '@rollup/plugin-terser';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import baseConfig from './rollup.config.base.js';
 
-import baseConfig from './rollup.config.base';
-import { name, version, author, global } from '../package.json';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const pkg = JSON.parse(readFileSync(join(__dirname, '../package.json'), 'utf-8'));
+const { name, version, author, global } = pkg;
 
 const banner =
   `${'/*!\n' + ' * '}${name}.js v${version}\n` +
@@ -18,15 +24,15 @@ export default [
       {
         file: `lib/${name}.cjs.js`,
         format: 'cjs',
-        banner
+        banner,
       },
       {
         file: `lib/${name}.esm.js`,
         format: 'es',
-        banner
-      }
+        banner,
+      },
     ],
-    plugins: [...baseConfig.plugins, filesize()]
+    plugins: [...baseConfig.plugins, filesize()],
   },
   {
     ...baseConfig,
@@ -35,20 +41,17 @@ export default [
         file: `lib/${name}.js`,
         format: 'umd',
         name: global,
-        banner
-      }
+        banner,
+      },
     ],
     plugins: [
       ...baseConfig.plugins,
-      uglify(
-        {
-          compress: {
-            drop_console: true
-          }
+      terser({
+        compress: {
+          drop_console: true,
         },
-        minify
-      ),
-      filesize()
-    ]
-  }
+      }),
+      filesize(),
+    ],
+  },
 ];

@@ -1,19 +1,28 @@
 {
   "compilerOptions": {
-    "strict": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "composite": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "incremental": true,
     "target": "esnext",
     "module": "esnext",
-    "noImplicitAny": true,
-    "removeComments": true,
-    "preserveConstEnums": false,
-    "sourceMap": true,
-    "downlevelIteration": true,
+    "sourceMap": false,
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
     "strictPropertyInitialization": false,
-    "declaration": true,
-    "declarationDir": "./typings"
+    "skipLibCheck": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitAny": false,
+    "noImplicitReturns": true,
+    "useDefineForClassFields": true
   },
-  "exclude": ["node_modules"],
-  "files": ["src/index.ts"]
+  "exclude": [],
+  "include": ["src/**/*.ts", "typings/**/*.d.ts"]
 }
