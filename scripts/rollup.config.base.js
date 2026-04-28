@@ -1,45 +1,30 @@
-import alias from '@rollup/plugin-alias';
-import nodeResolve from '@rollup/plugin-node-resolve';
+import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
-import replace from '@rollup/plugin-replace';
-import typescript from 'rollup-plugin-typescript2';
+import nodeResolve from '@rollup/plugin-node-resolve';
+import autoprefixer from 'autoprefixer';
 import postcss from 'rollup-plugin-postcss';
-
-const isProductionEnv = process.env.NODE_ENV === 'production';
+import typescript from 'rollup-plugin-typescript2';
 
 export default {
   input: 'src/index.ts',
   plugins: [
-    postcss({
-      extract: false,
-      minimize: isProductionEnv,
-      extensions: ['.css'],
+    babel({
+      exclude: 'node_modules/**',
+      babelHelpers: 'inline',
     }),
-    alias({
-      resolve: ['.ts'],
-    }),
+    commonjs(),
     nodeResolve(),
-    replace({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+    postcss({
+      plugins: [autoprefixer()],
+      extract: false,
+      modules: false,
+      autoModules: false,
+      minimize: true,
+      inject: true,
     }),
     typescript({
       exclude: 'node_modules/**',
       declarationDir: './typings',
     }),
-    commonjs({
-      include: 'node_modules/**',
-    }),
-  ],
-  output: [
-    {
-      format: 'cjs',
-      file: 'xterm-addon-search-bar',
-      sourcemap: true,
-    },
-    {
-      format: 'es',
-      file: 'xterm-addon-search-bar',
-      sourcemap: true,
-    },
   ],
 };

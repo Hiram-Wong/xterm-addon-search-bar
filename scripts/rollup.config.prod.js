@@ -1,20 +1,21 @@
-import filesize from 'rollup-plugin-filesize';
 import terser from '@rollup/plugin-terser';
 import { readFileSync } from 'fs';
-import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import filesize from 'rollup-plugin-filesize';
+import { fileURLToPath } from 'url';
+
 import baseConfig from './rollup.config.base.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const pkg = JSON.parse(readFileSync(join(__dirname, '../package.json'), 'utf-8'));
-const { name, version, author, global } = pkg;
+const { name, license, version, author } = pkg;
 
 const banner =
   `${'/*!\n' + ' * '}${name}.js v${version}\n` +
   ` * (c) 2018-${new Date().getFullYear()} ${author}\n` +
-  ` * Released under the MIT License.\n` +
+  ` * Released under the ${license} License.\n` +
   ` */`;
 
 export default [
@@ -40,7 +41,7 @@ export default [
       {
         file: `lib/${name}.js`,
         format: 'umd',
-        name: global,
+        name: 'SearchBarAddon',
         banner,
       },
     ],

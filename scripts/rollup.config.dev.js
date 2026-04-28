@@ -1,14 +1,16 @@
-import serve from 'rollup-plugin-serve';
 import { readFileSync } from 'fs';
-import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import livereload from 'rollup-plugin-livereload';
+import serve from 'rollup-plugin-serve';
+import { fileURLToPath } from 'url';
+
 import baseConfig from './rollup.config.base.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const pkg = JSON.parse(readFileSync(join(__dirname, '../package.json'), 'utf-8'));
-const { name, global } = pkg;
+const { name } = pkg;
 
 export default {
   ...baseConfig,
@@ -16,17 +18,24 @@ export default {
     {
       file: `lib/${name}.js`,
       format: 'umd',
-      name: global,
+      name: 'SearchBarAddon',
       sourcemap: true,
     },
   ],
   plugins: [
     ...baseConfig.plugins,
     serve({
-      port: 5432,
-      host: '0.0.0.0',
-      contentBase: ['pages', '.'],
-      verbose: true,
+      open: true,
+      verbose: false,
+      contentBase: ['pages', 'lib'],
+      host: 'localhost',
+      port: 3000,
+      headers: {
+        'Access-Control-Allow-Origin': '*', // Allow any origin
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      },
     }),
+    livereload('lib'),
   ],
 };
