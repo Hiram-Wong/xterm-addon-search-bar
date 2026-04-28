@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" href="favicon.ico" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xterm/xterm/css/xterm.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@xterm/xterm"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@xterm/addon-search"></script>
+    <script src="./xterm-addon-search-bar.js"></script>
+    <title>xterm-addon-search-bar</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+      }
+      .item {
+        width: 50%;
+        box-sizing: border-box;
+      }
+      .search {
+        width: 100%;
+        font-size: 20px;
+        line-height: 1.2;
+        padding: 7px 20px;
+        cursor: pointer;
+        border: none;
+        border: 2px solid #ccc;
+        border-top: 0;
+      }
+    </style>
+    <body>
+      <div class="container">
+        <div class="item">
+          <div id="terminal1"></div>
+          <button class="search" id="search1">Click btn or press Ctrl+F to find</button>
+        </div>
+        <div class="item">
+          <div id="terminal2"></div>
+          <button class="search" id="search2">Click btn or press Ctrl+F to find</button>
+        </div>
+      </div>
+      <script>
+        const baseTerminalOptions = {
+          fontSize: 14,
+          lineHeight: 1.2,
+          letterSpacing: 0,
+          fontWeight: '400',
+          fontFamily: 'Consolas, "Courier New", monospace',
+          bellStyle: 'sound',
+          cursorBlink: true,
+          theme: { background: '#263238' },
+          rendererType: 'canvas',
+          scrollback: Number.MAX_SAFE_INTEGER,
+          allowProposedApi: true,
+        };
+        var term1 = new Terminal(baseTerminalOptions);
+        term1.open(document.querySelector('#terminal1'));
+        var searchAddon1 = new SearchAddon.SearchAddon();
+        var searchbarAddon1 = new SearchBarAddon.SearchBarAddon({
+          searchAddon: searchAddon1,
+        });
+        term1.loadAddon(searchAddon1);
+        term1.loadAddon(searchbarAddon1);
+
+        term1.writeln('Welcome to xterm.js');
+        term1.writeln('This is a local terminal emulation, without mock terminal');
+        term1.writeln('Type some keys and commands to play around.');
+        term1.writeln(`An addon for xterm.js that enables searching the buffer. This addon requires xterm.js and xterm-search-addon v4+.
+            \r\nHello from \x1B[1;3;31mxterm.js`);
+
+        document.querySelector('#terminal1').addEventListener('keydown', function (event) {
+          if ((event.ctrlKey || event.metaKey) && event.key === 'f') {
+            event.preventDefault();
+            searchbarAddon1.show();
+          }
+        });
+        document.querySelector('#search1').addEventListener('click', function () {
+          searchbarAddon1.show();
+        });
+
+        var term2 = new Terminal(baseTerminalOptions);
+        term2.open(document.querySelector('#terminal2'));
+        var searchAddon2 = new SearchAddon.SearchAddon();
+        var searchbarAddon2 = new SearchBarAddon.SearchBarAddon({
+          searchAddon: searchAddon2,
+        });
+        term2.loadAddon(searchAddon2);
+        term2.loadAddon(searchbarAddon2);
+
+        term2.writeln('Welcome to xterm.js');
+        term2.writeln('This is a local terminal emulation, without mock terminal');
+        term2.writeln('Type some keys and commands to play around.');
+        term2.writeln(`An addon for xterm.js that enables searching the buffer. This addon requires xterm.js and xterm-search-addon v4+.
+            \r\nHello from \x1B[1;3;31mxterm.js`);
+
+        document.querySelector('#terminal2').addEventListener('keydown', function (event) {
+          if ((event.ctrlKey || event.metaKey) && event.key === 'f') {
+            event.preventDefault();
+            searchbarAddon2.show();
+          }
+        });
+        document.querySelector('#search2').addEventListener('click', function () {
+          searchbarAddon2.show();
+        });
+      </script>
+    </body>
+  </head>
+</html>
