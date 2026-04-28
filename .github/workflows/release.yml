@@ -42,9 +42,9 @@ jobs:
       - name: Build Project
         run: yarn build
 
-      - name: Pack lib directory
+      - name: Pack Lib
         run: |
-          zip -r "xterm-addon-search-bar-v${{ steps.get-info.outputs.version }}-lib.zip" lib
+          tar -czf "xterm-addon-search-bar-v${{ steps.get-info.outputs.version }}.tar.gz" lib
 
       - name: Release
         uses: ncipollo/release-action@v1
@@ -53,5 +53,5 @@ jobs:
           allowUpdates: true
           makeLatest: false
           tag: ${{ steps.get-info.outputs.version }}
-          artifacts: 'xterm-addon-search-bar-v${{ steps.get-info.outputs.version }}.zip'
+          artifacts: '*.tar.gz'
           token: ${{ secrets.GITHUB_TOKEN }}
