@@ -47,7 +47,7 @@ jobs:
       - name: Build Project
         run: yarn build
 
-      - name: Check if version already published
+      - name: Check Published status
         id: version-check
         run: |
           name="${{ steps.get-info.outputs.name }}"
@@ -63,6 +63,6 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish
-        run: npm publish --access public --provenance
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
