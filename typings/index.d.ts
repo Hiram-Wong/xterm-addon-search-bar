@@ -66,8 +66,12 @@ export declare class SearchBarAddon implements ITerminalAddon {
    */
   addNewStyle(newStyle: string): void;
 
+  /**
+   * Apply a new theme to the search bar.
+   */
+  applyTheme(theme: Partial<ISearchBarTheme>): void;
+
   private createSearchBarElement;
-  private applyTheme;
   private bindSearchBarEvents;
   private on;
   private handleSearchMatchCounter;

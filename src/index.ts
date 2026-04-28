@@ -110,6 +110,14 @@ export class SearchBarAddon implements ITerminalAddon {
     styleElement.appendChild(document.createTextNode(newStyle));
   }
 
+  public applyTheme(theme: Partial<ISearchBarTheme>): void {
+    this.theme = { ...DEFAULT_THEME, ...(theme ?? {}) };
+
+    for (const key of Object.keys(THEME_CSS_VARIABLES) as Array<keyof ISearchBarTheme>) {
+      this.searchBarElement.style.setProperty(THEME_CSS_VARIABLES[key], this.theme[key] ?? DEFAULT_THEME[key]);
+    }
+  }
+
   private createSearchBarElement() {
     const terminalElement = this.terminal.element as HTMLElement;
     terminalElement.style.position = 'relative';
@@ -120,7 +128,7 @@ export class SearchBarAddon implements ITerminalAddon {
 
     this.searchBarElement = document.createElement('div');
     this.searchBarElement.className = ADDON_MARKER_NAME;
-    this.applyTheme();
+    this.applyTheme(this.theme);
     this.searchBarElement.innerHTML = `
       <div class="search-bar__inputs">
         <input type="text" class="search-bar__input"></input>
@@ -139,12 +147,6 @@ export class SearchBarAddon implements ITerminalAddon {
     `;
 
     parentElement.appendChild(this.searchBarElement);
-  }
-
-  private applyTheme(): void {
-    for (const key of Object.keys(THEME_CSS_VARIABLES) as Array<keyof ISearchBarTheme>) {
-      this.searchBarElement.style.setProperty(THEME_CSS_VARIABLES[key], this.theme[key] ?? DEFAULT_THEME[key]);
-    }
   }
 
   private bindSearchBarEvents() {
