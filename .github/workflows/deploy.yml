@@ -40,7 +40,6 @@ jobs:
       - name: Archive Files
         run: |
           cp -af lib/xterm-addon-search-bar.js pages
-          sed -i 's#<script src="../lib/xterm-addon-search-bar.js"></script>#<script src="xterm-addon-search-bar.js"></script>#g' pages/index.html
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
