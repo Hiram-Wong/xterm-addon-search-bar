@@ -111,9 +111,9 @@ export class SearchBarAddon implements ITerminalAddon {
   }
 
   public applyTheme(theme: Partial<ISearchBarTheme>): void {
+    this.theme = { ...DEFAULT_THEME, ...(theme ?? {}) };
     if (!this.searchBarElement) return;
 
-    this.theme = { ...DEFAULT_THEME, ...(theme ?? {}) };
     for (const key of Object.keys(THEME_CSS_VARIABLES) as Array<keyof ISearchBarTheme>) {
       this.searchBarElement.style.setProperty(THEME_CSS_VARIABLES[key], this.theme[key] ?? DEFAULT_THEME[key]);
     }
