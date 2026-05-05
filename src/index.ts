@@ -111,8 +111,9 @@ export class SearchBarAddon implements ITerminalAddon {
   }
 
   public applyTheme(theme: Partial<ISearchBarTheme>): void {
-    this.theme = { ...DEFAULT_THEME, ...(theme ?? {}) };
+    if (!this.searchBarElement) return;
 
+    this.theme = { ...DEFAULT_THEME, ...(theme ?? {}) };
     for (const key of Object.keys(THEME_CSS_VARIABLES) as Array<keyof ISearchBarTheme>) {
       this.searchBarElement.style.setProperty(THEME_CSS_VARIABLES[key], this.theme[key] ?? DEFAULT_THEME[key]);
     }
@@ -128,7 +129,6 @@ export class SearchBarAddon implements ITerminalAddon {
 
     this.searchBarElement = document.createElement('div');
     this.searchBarElement.className = ADDON_MARKER_NAME;
-    this.applyTheme(this.theme);
     this.searchBarElement.innerHTML = `
       <div class="search-bar__inputs">
         <input type="text" class="search-bar__input"></input>
@@ -145,8 +145,9 @@ export class SearchBarAddon implements ITerminalAddon {
         <button class="search-bar__action close" type="button"></button>
       </div>
     `;
-
     parentElement.appendChild(this.searchBarElement);
+
+    this.applyTheme(this.theme);
   }
 
   private bindSearchBarEvents() {
