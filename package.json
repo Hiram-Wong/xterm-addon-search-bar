@@ -15,8 +15,6 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf lib",
-    "prebuild": "yarn clean",
-    "predev": "yarn clean",
     "prepare": "husky",
     "build": "rollup -c scripts/rollup.config.prod.js",
     "dev": "rollup -w -c scripts/rollup.config.dev.js",

@@ -42,10 +42,10 @@ jobs:
           registry-url: https://registry.npmjs.org/
 
       - name: Install Dependencies
-        run: yarn
+        run: npm install
 
       - name: Build Project
-        run: yarn build
+        run: npm run build
 
       - name: Check Published status
         id: version-check
